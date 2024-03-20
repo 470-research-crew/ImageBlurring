@@ -15,23 +15,6 @@
 #define BLUR_SIZE 6
 
 /**
- * Converts a given PPM pixel array into greyscale.
- * Uses the following formula for the conversion:
- *      V = (R * 0.21) + (G * 0.72) + (B * 0.07)
- * Where V is the grey value and RGB are the red, green, and blue values, respectively.
- */
-void color_to_grey(pixel_t *in, pixel_t *out, int width, int height)
-{
-    for (int i = 0; i < width * height; i++) {
-        rgb_t v = (rgb_t) round(
-              in[i].red * 0.21
-            + in[i].green * 0.72
-            + in[i].blue * 0.07);
-        out[i].red = out[i].green = out[i].blue = v;
-    }
-}
-
-/**
  * Blurs a given PPM pixel array through box blurring.
  * Strength of blur can be adjusted through the BLUR_SIZE value.
  */
@@ -97,11 +80,6 @@ int main(int argc, char *argv[])
     // Copy header to output image
     copy_header_ppm(input, output);
 
-    // Convert to greyscale
-    START_TIMER(grey)
-    color_to_grey(input->pixels, output->pixels, width, height);
-    STOP_TIMER(grey)
-
     // Swap buffers in preparation for blurring
     memcpy(input->pixels, output->pixels, total_pixels * sizeof(pixel_t));
 
@@ -116,8 +94,8 @@ int main(int argc, char *argv[])
     STOP_TIMER(save)
 
     // Display timing results
-    printf("READ: %.6f  GREY: %.6f  BLUR: %.6f  SAVE: %.6f\n",
-           GET_TIMER(read), GET_TIMER(grey), GET_TIMER(blur), GET_TIMER(save));
+    printf("READ: %.6f  BLUR: %.6f  SAVE: %.6f\n",
+           GET_TIMER(read), GET_TIMER(blur), GET_TIMER(save));
 
     free(input);
     free(output);

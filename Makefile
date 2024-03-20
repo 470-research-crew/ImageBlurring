@@ -2,14 +2,20 @@ CC=gcc
 CFLAGS=-g -Wall --std=c99 -Wno-unknown-pragmas -O3
 NFLAGS=-ccbin $(CC) -g -O3
 LIB=-lm
-TARGETS=greyblur_serial greyblur_cuda
+TARGETS=blur_serial blur_cuda blur_pthread blur_openmp
 
 all: $(TARGETS)
 
-greyblur_serial: greyblur.c
+blur_serial: blur_serial.c
 	$(CC) $(CFLAGS) -o $@ $< $(LIB)
 
-greyblur_cuda: greyblur.cu
+blur_cuda: blur_cuda.cu
+	nvcc $(NFLAGS) -o $@ $< $(LIB)
+
+blur_pthread: blur_pthread.c
+	nvcc $(NFLAGS) -o $@ $< $(LIB)
+
+blur_openmp: blur_openmp.c
 	nvcc $(NFLAGS) -o $@ $< $(LIB)
 
 clean:
