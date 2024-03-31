@@ -8,12 +8,32 @@
 
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
 #include "netpbm.h"
 #include "timer.h"
 
+using namespace std;
+
 // The size of the blur box
 #define BLUR_SIZE 6
+
+/**
+ * Converts a given PPM pixel array into greyscale.
+ * Uses the following formula for the conversion:
+ *      V = (R * 0.21) + (G * 0.72) + (B * 0.07)
+ * Where V is the grey value and RGB are the red, green, and blue values, respectively.
+ */
+void color_to_grey(pixel_t *in, pixel_t *out, int width, int height)
+{
+    for (int i = 0; i < width * height; i++) {
+        rgb_t v = (rgb_t) round(
+              in[i].red * 0.21
+            + in[i].green * 0.72
+            + in[i].blue * 0.07);
+        out[i].red = out[i].green = out[i].blue = v;
+    }
+}
 
 /**
  * Blurs a given PPM pixel array through box blurring.
@@ -42,9 +62,9 @@ void blur(pixel_t *in, pixel_t *out, int width, int height)
             }
         }
 
-        pixel_t result = {.red   = static_cast<rgb_t>(std::round(avg_red   / pixel_count)),
-                          .green = static_cast<rgb_t>(std::round(avg_green / pixel_count)),
-                          .blue  = static_cast<rgb_t>(std::round(avg_blue  / pixel_count))
+        pixel_t result = {.red   = (rgb_t) lroundf(avg_red   / pixel_count),
+                          .green = (rgb_t) lroundf(avg_green / pixel_count),
+                          .blue  = (rgb_t) lroundf(avg_blue  / pixel_count)
                          };
         out[i] = result;
     }
@@ -53,19 +73,19 @@ void blur(pixel_t *in, pixel_t *out, int width, int height)
 int main(int argc, char *argv[])
 {
     if (argc != 5) {
-        std::cout << "Usage: " << argv[0] << " <infile> <outfile> <width> <height>\n";
+        cout << "Usage: " << argv[0] << " <infile> <outfile> <width> <height>\n";
         exit(EXIT_FAILURE);
     }
 
     char *in = argv[1];
     char *out = argv[2];
-    int width = std::strtol(argv[3], NULL, 10),
-        height = std::strtol(argv[4], NULL, 10);
+    int width = strtol(argv[3], NULL, 10),
+        height = strtol(argv[4], NULL, 10);
     long total_pixels = width * height;
 
     // Allocate memory for images
-    ppm_t *input  = reinterpret_cast<ppm_t*>(malloc(sizeof(ppm_t) + (total_pixels * sizeof(pixel_t))));
-    ppm_t *output = reinterpret_cast<ppm_t*>(malloc(sizeof(ppm_t) + (total_pixels * sizeof(pixel_t))));
+    ppm_t *input  = (ppm_t*)malloc(sizeof(ppm_t) + (total_pixels * sizeof(pixel_t)));
+    ppm_t *output = (ppm_t*)malloc(sizeof(ppm_t) + (total_pixels * sizeof(pixel_t)));
 
     // Read image
     START_TIMER(read)
@@ -74,15 +94,20 @@ int main(int argc, char *argv[])
 
     // Verify dimensions
     if(width != input->width || height != input->height) {
-        std::cout << "ERROR: given dimensions do not match file\n";
+        cout << "ERROR: given dimensions do not match file\n";
         exit(EXIT_FAILURE);
     }
 
     // Copy header to output image
     copy_header_ppm(input, output);
 
+    // Convert to greyscale
+    START_TIMER(grey)
+    //color_to_grey(input->pixels, output->pixels, width, height);
+    STOP_TIMER(grey)
+
     // Swap buffers in preparation for blurring
-    std::memcpy(input->pixels, output->pixels, total_pixels * sizeof(pixel_t));
+    memcpy(input->pixels, output->pixels, total_pixels * sizeof(pixel_t));
 
     // Apply blur filter
     START_TIMER(blur)
@@ -95,7 +120,7 @@ int main(int argc, char *argv[])
     STOP_TIMER(save)
 
     // Display timing results
-    std::cout << "READ: " << GET_TIMER(read) << "  BLUR: " << GET_TIMER(blur) << "  SAVE: " << GET_TIMER(save) << "\n";
+    cout << "READ: " << GET_TIMER(read) << "  GREY: " << GET_TIMER(grey) << "  BLUR: " << GET_TIMER(blur) << "  SAVE: " << GET_TIMER(save) << endl;
 
     free(input);
     free(output);
