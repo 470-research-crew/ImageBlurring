@@ -2,3 +2,4 @@
 
 cd cmake-dir
 cmake ../CMakeLists.txt
+make
