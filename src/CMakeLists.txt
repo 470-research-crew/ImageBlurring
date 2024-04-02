@@ -15,3 +15,6 @@ endif()
 find_package(Threads REQUIRED)
 add_executable(pthread pthread/greyblur_pthread.cpp netpbm.h)
 target_link_libraries(pthread Threads::Threads)
+
+# Raja version
+find_package(RAJA REQUIRED)
