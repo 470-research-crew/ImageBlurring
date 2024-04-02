@@ -28,7 +28,7 @@ convert ${@: -1} -compress None PPM:${temp_file}
 # Run serial program if it is present
 if [ -e "serial" ]; then
     echo -n "Serial:       "
-    ./serial ${temp_file} output_serial.ppm ${width} ${height}
+    srun ./serial ${temp_file} output_serial.ppm ${width} ${height}
     convert output_serial.ppm PNG:output_serial.png
     rm output_serial.ppm
 else
@@ -38,7 +38,7 @@ fi
 
 if [ -e "pthread" ]; then
     echo -n "Pthread:      "
-    ./pthread ${temp_file} output_pthread.ppm ${width} ${height} 16
+    srun ./pthread ${temp_file} output_pthread.ppm ${width} ${height} 16
     convert output_pthread.ppm PNG:output_pthread.png
     rm output_pthread.ppm
 else
@@ -47,7 +47,7 @@ fi
 
 if [ -e "openmp" ]; then
     echo -n "OpenMP:       "
-    ./openmp ${temp_file} output_openmp.ppm ${width} ${height}
+    srun ./openmp ${temp_file} output_openmp.ppm ${width} ${height}
     convert output_openmp.ppm PNG:output_openmp.png
     rm output_openmp.ppm
 else
