@@ -58,7 +58,7 @@ fi
 # Run CUDA program if it is present
 if [ -e "cuda" ]; then
     echo -n "CUDA:         "
-    ./cuda ${temp_file} output_cuda.ppm ${width} ${height}
+    srun --gres=gpu ./cuda ${temp_file} output_cuda.ppm ${width} ${height}
     convert output_cuda.ppm PNG:output_cuda.png
     rm output_cuda.ppm
 else
