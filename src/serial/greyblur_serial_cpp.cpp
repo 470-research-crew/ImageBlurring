@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 
     // Convert to greyscale
     START_TIMER(grey)
-    //color_to_grey(input->pixels, output->pixels, width, height);
+    color_to_grey(input->pixels, output->pixels, width, height);
     STOP_TIMER(grey)
 
     // Swap buffers in preparation for blurring
