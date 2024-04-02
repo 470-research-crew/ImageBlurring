@@ -1,3 +1,8 @@
 cmake-dir
 out
 output*.png
+
+cuda
+openmp
+serial
+pthread
