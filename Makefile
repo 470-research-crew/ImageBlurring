@@ -17,8 +17,14 @@ greyblur_cuda: greyblur_cuda.cu
 greyblur_pthread: greyblur_pthread.c
 	$(CC) $(CFLAGS) -o $@ $< $(LIB) -lpthread
 
+greyblur_pthread_cpp: greyblur_pthread_cpp.cpp
+	$(CXX) $(CXXFLAGS) -o $@ $< $(LIB) -lpthread
+
 greyblur_openmp: greyblur_openmp.c
 	$(CC) $(CFLAGS) -fopenmp -o $@ $< $(LIB) 
+
+greyblur_openmp_cpp: greyblur_openmp_cpp.cpp
+	$(CXX) $(CXXFLAGS) -o $@ $< $(LIB)
 
 greyblur_serial_cpp: greyblur_serial_cpp.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $< $(LIB)

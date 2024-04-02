@@ -1,6 +1,6 @@
 /**
  * CS 470 CUDA Lab
- *
+ * 
  * Name(s): 
  *
  * Originally written by William Lovo in Spring 2019 as a research project.
