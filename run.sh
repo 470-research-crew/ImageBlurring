@@ -4,7 +4,7 @@
 #
 #   srun --gres=gpu ./run.sh <infile>
 #
-cd out
+
 # Check for filename
 if [ $# -ne 1 ]; then
     echo "Usage: ./run.sh <image>"
@@ -32,6 +32,7 @@ if [ -e "serial" ]; then
     convert output_serial.ppm PNG:output_serial.png
     rm output_serial.ppm
 else
+    pwd
     echo "ERROR: Serial program not found"
 fi
 
