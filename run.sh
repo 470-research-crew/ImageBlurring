@@ -4,7 +4,7 @@
 #
 #   srun --gres=gpu ./run.sh <infile>
 #
-
+cd out
 # Check for filename
 if [ $# -ne 1 ]; then
     echo "Usage: ./run.sh <image>"
@@ -26,27 +26,27 @@ temp_file="converted_image.ppm"
 convert ${@: -1} -compress None PPM:${temp_file}
 
 # Run serial program if it is present
-if [ -e "greyblur_serial" ]; then
+if [ -e "serial" ]; then
     echo -n "Serial:       "
-    ./greyblur_serial ${temp_file} output_serial.ppm ${width} ${height}
+    ./serial ${temp_file} output_serial.ppm ${width} ${height}
     convert output_serial.ppm PNG:output_serial.png
     rm output_serial.ppm
 else
     echo "ERROR: Serial program not found"
 fi
 
-if [ -e "greyblur_pthread" ]; then
+if [ -e "pthread" ]; then
     echo -n "Pthread:      "
-    ./greyblur_pthread ${temp_file} output_pthread.ppm ${width} ${height} 16
+    ./pthread ${temp_file} output_pthread.ppm ${width} ${height} 16
     convert output_pthread.ppm PNG:output_pthread.png
     rm output_pthread.ppm
 else
     echo "ERROR: Pthread program not found"
 fi
 
-if [ -e "greyblur_openmp" ]; then
+if [ -e "openmp" ]; then
     echo -n "OpenMP:       "
-    ./greyblur_openmp ${temp_file} output_openmp.ppm ${width} ${height}
+    ./openmp ${temp_file} output_openmp.ppm ${width} ${height}
     convert output_openmp.ppm PNG:output_openmp.png
     rm output_openmp.ppm
 else
@@ -55,9 +55,9 @@ fi
 
 
 # Run CUDA program if it is present
-if [ -e "greyblur_cuda" ]; then
+if [ -e "cuda" ]; then
     echo -n "CUDA:         "
-    ./greyblur_cuda ${temp_file} output_cuda.ppm ${width} ${height}
+    ./cuda ${temp_file} output_cuda.ppm ${width} ${height}
     convert output_cuda.ppm PNG:output_cuda.png
     rm output_cuda.ppm
 else

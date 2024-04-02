@@ -11,9 +11,11 @@
 #include "netpbm.h"
 #include "timer.h"
 
+
 #ifdef _OPENMP
 #include <omp.h>
 #endif
+
 
 // The size of the blur box
 #define BLUR_SIZE 6
