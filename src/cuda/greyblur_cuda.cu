@@ -10,8 +10,8 @@
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
-#include "netpbm.h"
-#include "timer.h"
+#include "../netpbm.h"
+#include "../timer.h"
 
 // The size of the blur box
 #define BLUR_SIZE 6

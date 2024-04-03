@@ -9,8 +9,8 @@
 #include <iostream>
 #include <cmath>
 #include <pthread.h>
-#include "netpbm.h"
-#include "timer.h"
+#include "../netpbm.h"
+#include "../timer.h"
 
 // The size of the blur box
 #define BLUR_SIZE 6

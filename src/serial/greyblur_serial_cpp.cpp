@@ -10,8 +10,8 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
-#include "netpbm.h"
-#include "timer.h"
+#include "../netpbm.h"
+#include "../timer.h"
 
 using namespace std;
 

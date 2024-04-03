@@ -28,17 +28,16 @@ convert ${@: -1} -compress None PPM:${temp_file}
 # Run serial program if it is present
 if [ -e "serial" ]; then
     echo -n "Serial:       "
-    srun ./serial ${temp_file} output_serial.ppm ${width} ${height}
+    srun ./build/bin/serial.exe ${temp_file} output_serial.ppm ${width} ${height}
     convert output_serial.ppm PNG:output_serial.png
     rm output_serial.ppm
 else
-    pwd
     echo "ERROR: Serial program not found"
 fi
 
 if [ -e "pthread" ]; then
     echo -n "Pthread:      "
-    srun ./pthread ${temp_file} output_pthread.ppm ${width} ${height} 16
+    srun ./build/bin/pthread ${temp_file} output_pthread.ppm ${width} ${height} 16
     convert output_pthread.ppm PNG:output_pthread.png
     rm output_pthread.ppm
 else
@@ -47,18 +46,17 @@ fi
 
 if [ -e "openmp" ]; then
     echo -n "OpenMP:       "
-    srun ./openmp ${temp_file} output_openmp.ppm ${width} ${height}
+    srun ./build/bin/openmp ${temp_file} output_openmp.ppm ${width} ${height}
     convert output_openmp.ppm PNG:output_openmp.png
     rm output_openmp.ppm
 else
     echo "ERROR: OpenMP program not found"
 fi
 
-
 # Run CUDA program if it is present
 if [ -e "cuda" ]; then
     echo -n "CUDA:         "
-    srun --gres=gpu ./cuda ${temp_file} output_cuda.ppm ${width} ${height}
+    srun --gres=gpu ./build/bin/cuda ${temp_file} output_cuda.ppm ${width} ${height}
     convert output_cuda.ppm PNG:output_cuda.png
     rm output_cuda.ppm
 else

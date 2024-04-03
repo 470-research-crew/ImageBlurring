@@ -1,20 +1,29 @@
-# Adds all files to be run
 
-# Already specified to use CUDA
-add_executable(cuda cuda/greyblur_cuda.cu netpbm.h)
-add_executable(serial serial/greyblur_serial_cpp.cpp netpbm.h)
+set(example_depends RAJA)
 
-# attempt to link openmp executable with openmp;
-# this executable will still work w/o openmp
-add_executable(openmp openmp/greyblur_openmp.cpp netpbm.h)
-find_package(OpenMP)
-if(OpenMP_CXX_FOUND)
-    target_link_libraries(openmp PUBLIC OpenMP::OpenMP_CXX)
-endif()
+if (ENABLE_OPENMP)
+  set(example_depends 
+    ${example_depends}
+    openmp)
+endif ()
 
-find_package(Threads REQUIRED)
-add_executable(pthread pthread/greyblur_pthread.cpp netpbm.h)
-target_link_libraries(pthread Threads::Threads)
+if (ENABLE_CUDA)
+  set(example_depends 
+    ${example_depends}
+    cuda)
+endif ()
 
-# Raja version
-find_package(RAJA REQUIRED)
+blt_add_executable(
+  NAME serial.exe
+  SOURCES serial/greyblur_serial_cpp.cpp
+  DEPENDS_ON ${example_depends})
+
+blt_add_executable(
+  NAME cuda.exe
+  SOURCES cuda/greyblur_cuda.cu
+  DEPENDS_ON ${example_depends})
+
+blt_add_executable(
+  NAME openmp.exe
+  SOURCES openmp/greyblur_openmp.cpp
+  DEPENDS_ON ${example_depends})

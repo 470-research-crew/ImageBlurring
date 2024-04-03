@@ -8,8 +8,8 @@
 
 #include <iostream>
 #include <cmath>
-#include "netpbm.h"
-#include "timer.h"
+#include "../netpbm.h"
+#include "../timer.h"
 
 
 #ifdef _OPENMP

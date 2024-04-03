@@ -5,5 +5,6 @@ if [ ! -d "cmake-dir" ]; then
 fi
 
 cd cmake-dir
-cmake ../CMakeLists.txt
+cmake -DRAJA_DIR=/nfs/home/krobatln/1Project/ImageBlurring/RAJA/share/raja/cmake -DCMAKE_INSTALL_PREFIX=/nfs/home/krobatln/1Project/ImageBlurring/ ../
+#cmake ../CMakeLists.txt
 make

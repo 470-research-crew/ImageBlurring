@@ -1,13 +1,27 @@
-cmake_minimum_required(VERSION 3.5)
-project(imageblurring LANGUAGES CXX CUDA)
+cmake_minimum_required(VERSION 3.8)
 
-include_directories("src")
+project( imageblurring LANGUAGES CXX CUDA )
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../../)
-set(CMAKE_CUDA_ARCHITECTURES all-major)
+set (ENABLE_TESTS Off CACHE BOOL "")
+set (ENABLE_EXAMPLES Off CACHE BOOL "")
+set (ENABLE_REPRODUCERS Off CACHE BOOL "")
+set (ENABLE_EXERCISES Off CACHE BOOL "")
+set (ENABLE_DOCUMENTATION Off CACHE BOOL "")
+set (ENABLE_BENCHMARKS Off CACHE BOOL "")
 
-enable_testing()
+set(BLT_CXX_STD "c++14" CACHE STRING "C++ version to use")
+include(RAJA/blt/SetupBLT.cmake)
 
-# Deferring to cmake
+if (DEFINED RAJA_DIR)
+  find_package(RAJA REQUIRED)
+  blt_print_target_properties(TARGET RAJA)
+else ()
+  add_subdirectory(/nfs/home/krobatln/1Project/ImageBlurring/RAJA)
+endif ()
+
+if(ENABLE_CUDA)
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --expt-extended-lambda")
+    set_target_properties(cuda.exe PROPERTIES CUDA_ARCHITECTURES "arch_60;arch_61")
+endif()
+
 add_subdirectory(src)
-# add_subdirectory(test)
