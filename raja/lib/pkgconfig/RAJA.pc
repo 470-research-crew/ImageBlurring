@@ -1,0 +1,8 @@
+libdir=/nfs/home/krobatln/1Project/ImageBlurring/RAJA/build-dir/applications/raja/lib
+includedir=/nfs/home/krobatln/1Project/ImageBlurring/RAJA/build-dir/applications/raja/include
+
+Name: RAJA
+Description: RAJA Portability Layer
+Version: 2024.2.0
+Libs: -rdynamic ${libdir}/libRAJA.a   -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc -l/usr/local/cuda/lib64/libcudart_static.a -lThreads::Threads -ldl -l/usr/lib64/librt.so
+Cflags:  -I/usr/local/cuda/include -I/usr/local/cuda/include -I${includedir}
