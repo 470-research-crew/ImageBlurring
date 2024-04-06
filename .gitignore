@@ -7,4 +7,7 @@ openmp
 serial
 pthread
 
-build
+RAJA
+RAJA-build
+RAJA-example
+RAJA-install
