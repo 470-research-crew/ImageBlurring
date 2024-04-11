@@ -23,5 +23,13 @@ cp ./example/raja.cpp ./RAJA-example
 cp ./example/Makefile ./RAJA-example
 cd ./RAJA-example
 make
+
+echo 'Running program on wilson.jpg'
+../run.sh ../wilson.jpg
+echo 'Running program on wilson2.jpg'
 ../run.sh ../wilson2.jpg
+echo 'Running program on duke_dog.jpg'
+../run.sh ../duke_dog.jpg
+echo 'Running program on duke_dog2.jpg'
+../run.sh ../duke_dog2.jpg
 echo 'Success in program run'

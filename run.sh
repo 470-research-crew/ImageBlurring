@@ -25,6 +25,7 @@ fi
 temp_file="converted_image.ppm"
 convert ${@: -1} -compress None PPM:${temp_file}
 
+
 # Run serial program if it is present
 if [ -e "serial" ]; then
     echo -n "Serial:       "
@@ -53,7 +54,7 @@ else
     echo "ERROR: OpenMP program not found"
 fi
 
-# Run CUDA program if it is present
+#Run CUDA program if it is present
 if [ -e "cuda" ]; then
     echo -n "CUDA:         "
     srun --gres=gpu ./cuda ${temp_file} output_cuda.ppm ${width} ${height}
@@ -64,12 +65,14 @@ else
 fi
 
 
-#if [ -e "raja" ]; then
-#    echo -n "RAJA:         "
-#    srun ./raja
-#else
-#    echo "ERROR: RAJA program not found"
-#fi
+if [ -e "raja" ]; then
+    echo -n "RAJA:         "
+    srun ./raja ${temp_file} output_raja.ppm ${width} ${height}
+    convert output_raja.ppm PNG:output_raja.png
+    rm output_raja.ppm
+else
+    echo "ERROR: RAJA program not found"
+fi
 
 # Remove the temporary file
 rm ${temp_file}

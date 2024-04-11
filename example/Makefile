@@ -8,7 +8,7 @@ LIB = -lm
 INC_DIR=../RAJA-install/include
 LIB_DIR=../RAJA-install/lib
 LIBS=-lRAJA
-TARGETS = serial cuda pthread openmp serial #raja
+TARGETS = serial cuda pthread openmp serial raja
 
 all: $(TARGETS)
 
@@ -24,8 +24,8 @@ openmp: openmp.cpp
 serial: serial.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $< $(LIB)
 
-#raja: 
-#	$(CXX) -o $@ $^ $(CXX_R_FLAGS) -L $(LIB_DIR) $(LIBS)
+raja: raja.cpp
+	$(CXX) -o $@ $^ $(CXX_R_FLAGS) -L $(LIB_DIR) $(LIBS)
 
 .PHONY: clean
 
