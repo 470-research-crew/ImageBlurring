@@ -28,7 +28,7 @@ cp ./example/Makefile ./RAJA-example
 cd ./RAJA-example
 make
 
-..//make_ppms.sh
+../make_ppms.sh
 
 gcc -o dif_compare ../dif/dif.c
 
