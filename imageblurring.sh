@@ -9,9 +9,7 @@ mkdir RAJA-example
 
 # NOTE: only build RAJA if RAJA build dir not found.
 if [[ ! -d RAJA-build ]]; then
-  git clone --recursive https://github.com/470-research-crew/ImageBlurring.git
-  mkdir RAJA-build
-  mkdir RAJA-install
+  git clone --recursive https://github.com/470-research-crew/ImageBlurring.git && mkdir RAJA-build && mkdir RAJA-install
 
   echo 'Success in environment set up'
 
