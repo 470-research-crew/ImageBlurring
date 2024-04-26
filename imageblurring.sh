@@ -1,20 +1,23 @@
 # set up environment
-git clone --recursive git@github.com:LLNL/RAJA.git
-mkdir RAJA-build
-mkdir RAJA-install
-mkdir RAJA-example
-echo 'Success in environment set up'
 
+# NOTE: only build RAJA if RAJA build dir not found.
+if [[ ! -d RAJA-build ]]; then
+  git clone --recursive git@github.com:LLNL/RAJA.git
+  mkdir RAJA-build
+  mkdir RAJA-install
+  mkdir RAJA-example
+  echo 'Success in environment set up'
 
- build RAJA 
-cd RAJA-build
-cmake -DCMAKE_INSTALL_PREFIX=../RAJA-install -DENABLE_OPENMP=On ../RAJA
-make -j && make install
-echo 'Success in build'
+  # build RAJA 
+  cd RAJA-build
+  cmake -DCMAKE_INSTALL_PREFIX=../RAJA-install -DENABLE_OPENMP=On ../RAJA
+  make -j && make install
+  echo 'Success in build'
 
-cd ../
+  cd ../
+fi
 
-make and run program
+# make and run program
 cp ./example/serial.cpp ./RAJA-example
 cp ./example/cuda.cu ./RAJA-example
 cp ./example/openmp.cpp ./RAJA-example
