@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
     char *image1_path = argv[1];
     char *image2_path = argv[2];
     double percentage_diff = calculate_percentage_difference(image1_path, image2_path);
-    printf("\rPercentage difference between %s and %s: %.2f%%\n", image1_path, image2_path, percentage_diff);
+    printf("Percentage difference between %s and %s: %.2f%%\n", image1_path, image2_path, percentage_diff);
 
     return 0;
 }
