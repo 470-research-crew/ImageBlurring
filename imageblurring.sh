@@ -10,7 +10,8 @@ if [[ ! -d RAJA-build ]]; then
 
   # build RAJA 
   cd RAJA-build
-  cmake -DCMAKE_INSTALL_PREFIX=../RAJA-install -DENABLE_OPENMP=On ../RAJA
+  # Disable additional cruft -- wastes time!
+  cmake -DRAJA_ENABLE_TESTS=Off -DRAJA_ENABLE_EXAMPLES=Off -DRAJA_ENABLE_EXERCISES=Off -DCMAKE_INSTALL_PREFIX=../RAJA-install -DENABLE_OPENMP=On ../RAJA
   make -j && make install
   echo 'Success in build'
 
