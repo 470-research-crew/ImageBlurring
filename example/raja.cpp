@@ -27,7 +27,7 @@ using namespace std;
  */
 void color_to_grey(pixel_t *in, pixel_t *out, int width, int height)
 {
-  using EXEC_POL1   = RAJA::seq_exec;
+  using EXEC_POL1   = RAJA::omp_parallel_for_exec;
   RAJA::RangeSegment range(0,width*height);
   RAJA::forall<EXEC_POL1>(range, [=] (int i)
   {
@@ -45,7 +45,7 @@ void color_to_grey(pixel_t *in, pixel_t *out, int width, int height)
  */
 void blur(pixel_t *in, pixel_t *out, int width, int height)
 {
-    using EXEC_POL1 = RAJA::seq_exec;
+    using EXEC_POL1 = RAJA::omp_parallel_for_exec;
     RAJA::RangeSegment range(0, width * height);
     RAJA::forall<EXEC_POL1>(range, [=](int i)
     {
@@ -54,9 +54,8 @@ void blur(pixel_t *in, pixel_t *out, int width, int height)
         float avg_red = 0, avg_green = 0, avg_blue = 0;
         int pixel_count = 0;
 
-        RAJA::RangeSegment range1(-BLUR_SIZE, BLUR_SIZE + 1);
-        RAJA::forall<RAJA::omp_parallel_for_exec>(range1, [=, &avg_red, &avg_green, &avg_blue, &pixel_count](int blur_row) {
-             RAJA::forall<RAJA::seq_exec>(range1, [=, &avg_red, &avg_green, &avg_blue, &pixel_count](int blur_col) {
+        for (int blur_row = -BLUR_SIZE; blur_row < BLUR_SIZE + 1; blur_row++) {
+            for (int blur_col = -BLUR_SIZE; blur_col < BLUR_SIZE + 1; blur_col++) {
                 int curr_row = row + blur_row;
                 int curr_col = col + blur_col;
 
@@ -67,8 +66,8 @@ void blur(pixel_t *in, pixel_t *out, int width, int height)
                     avg_blue += in[curr_index].blue;
                     pixel_count++;
                 }
-            });
-        });
+            }
+        }
 
         pixel_t result = {.red   = (rgb_t) lroundf(avg_red   / pixel_count),
                           .green = (rgb_t) lroundf(avg_green / pixel_count),

@@ -6,7 +6,7 @@ mkdir RAJA-example
 echo 'Success in environment set up'
 
 
-# build RAJA 
+ build RAJA 
 cd RAJA-build
 cmake -DCMAKE_INSTALL_PREFIX=../RAJA-install -DENABLE_OPENMP=On ../RAJA
 make -j && make install
@@ -14,7 +14,7 @@ echo 'Success in build'
 
 cd ../
 
-# make and run program
+make and run program
 cp ./example/serial.cpp ./RAJA-example
 cp ./example/cuda.cu ./RAJA-example
 cp ./example/openmp.cpp ./RAJA-example
@@ -24,12 +24,27 @@ cp ./example/Makefile ./RAJA-example
 cd ./RAJA-example
 make
 
+
+gcc -o dif_compare ../dif/dif.c
+
 echo 'Running program on wilson.jpg'
-../run.sh ../wilson.jpg
+for i in {1..5}; do
+    ../run.sh ../wilson.jpg
+done
+
 echo 'Running program on wilson2.jpg'
-../run.sh ../wilson2.jpg
+for i in {1..5}; do
+    ../run.sh ../wilson2.jpg
+done
+
 echo 'Running program on duke_dog.jpg'
-../run.sh ../duke_dog.jpg
+for i in {1..5}; do
+    ../run.sh ../duke_dog.jpg
+done
+
 echo 'Running program on duke_dog2.jpg'
-../run.sh ../duke_dog2.jpg
+for i in {1..5}; do
+    ../run.sh ../duke_dog2.jpg
+done
+
 echo 'Success in program run'

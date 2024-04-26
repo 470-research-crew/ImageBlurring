@@ -50,6 +50,7 @@ if [ -e "openmp" ]; then
     srun ./openmp ${temp_file} output_openmp.ppm ${width} ${height}
     convert output_openmp.ppm PNG:output_openmp.png
     rm output_openmp.ppm
+    
 else
     echo "ERROR: OpenMP program not found"
 fi
@@ -70,9 +71,17 @@ if [ -e "raja" ]; then
     srun ./raja ${temp_file} output_raja.ppm ${width} ${height}
     convert output_raja.ppm PNG:output_raja.png
     rm output_raja.ppm
+
 else
     echo "ERROR: RAJA program not found"
 fi
+
+
+srun ./dif_compare output_serial.png output_pthread.png
+srun ./dif_compare output_serial.png output_openmp.png
+srun ./dif_compare output_serial.png output_cuda.png
+srun ./dif_compare output_serial.png output_raja.png
+
 
 # Remove the temporary file
 rm ${temp_file}
