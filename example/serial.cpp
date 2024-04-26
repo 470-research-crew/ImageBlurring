@@ -1,10 +1,10 @@
 /**
- * CS 470 CUDA Lab
- *
- * Name(s): 
- *
- * Originally written by William Lovo in Spring 2019 as a research project.
- */
+* CS 470 Research Project
+*
+* Name(s): Will Morris, Mark Myers, Lexi Krobath
+*
+* Originally written by William Lovo in Spring 2019 as a research project.
+*/
 
 #include <iostream>
 #include <cmath>
@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
     STOP_TIMER(save)
 
     // Display timing results
-    cout << "READ: " << GET_TIMER(read) << "  GREY: " << GET_TIMER(grey) << "  BLUR: " << GET_TIMER(blur) << "  SAVE: " << GET_TIMER(save) << endl;
+    cout << "GREY: " << GET_TIMER(grey) << "  BLUR: " << GET_TIMER(blur) << endl;
 
     free(input);
     free(output);

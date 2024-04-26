@@ -1,6 +1,6 @@
 
 /**
-* CS 470 CUDA Lab
+* CS 470 Research Project
 *
 * Name(s): Will Morris, Mark Myers, Lexi Krobath
 *
@@ -131,8 +131,8 @@ int main(int argc, char *argv[])
    STOP_TIMER(save)
 
    // Display timing results
-   printf("READ: %.6f  GREY: %.6f  BLUR: %.6f  SAVE: %.6f\n",
-          GET_TIMER(read), GET_TIMER(grey), GET_TIMER(blur), GET_TIMER(save));
+   printf("GREY: %.7f  BLUR: %.7f\n",
+          GET_TIMER(grey), GET_TIMER(blur));
 
    assert(cudaFree(input) == 0);
    assert(cudaFree(output) == 0);
