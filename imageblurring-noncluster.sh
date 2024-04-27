@@ -31,7 +31,7 @@ cp ./example/pthread.cpp ./RAJA-example
 cp ./example/raja.cpp ./RAJA-example
 cp ./example/Makefile ./RAJA-example
 cd ./RAJA-example
-make
+make noncuda
 
 ../make_ppms.sh
 
